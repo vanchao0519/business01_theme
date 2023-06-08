@@ -1,0 +1,68 @@
+{#
+/**
+ * @file
+ * Olivero's theme override to display the footer top region.
+ *
+ * Available variables:
+ * - content: The content for this region, typically blocks.
+ * - attributes: HTML attributes for the region <div>.
+ * - region: The name of the region variable as defined in the theme's
+ *   .info.yml file.
+ *
+ * @see template_preprocess_region()
+ */
+#}
+
+<div class="zone-01">
+  <div class="container pb-4">
+    <div class="row text-md-center">
+      <div class="col-12">
+        <div class="mb-3"><a class="navbar-link" href="/"><img src="{{ base_path ~ directory }}/css/images/logo_02.png" alt="footer_logo"></a></div>
+        <div class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus magnam asperiores, consequuntur quos modi consequatur sequi quia repellat exercitationem unde, reprehenderit blanditiis voluptate, perferendis nulla molestiae eos dolores? Unde, doloremque.</div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row text-md-center">
+      <div class="col-md-3 col-12">
+        <h4 class="text-uppercase text-white">Navigation</h4>
+        <div class="links-group">
+          <div class="mt-0"><a class="fw-bold" href="/">Home</a></div>
+          <div class="mt-0"><a class="fw-bold" href="/pricing">Price</a></div>
+          <div class="mt-0"><a class="fw-bold" href="/team">Team</a></div>
+          <div class="mt-0"><a class="fw-bold" href="/about">About</a></div>
+        </div>
+      </div>
+      <div class="col-md-3 col-12 mt-md-0 mt-4">
+        <h4 class="text-uppercase text-white">Legal</h4>
+        <div class="links-group">
+          <div class="mt-0"><a class="fw-bold" href="#">Term of use</a></div>
+          <div class="mt-0"><a class="fw-bold" href="#">Privacy Policy</a></div>
+          <div class="mt-0"><a class="fw-bold" href="#">Cookies Policy</a></div>
+          <div class="mt-0"><a class="fw-bold" href="#">Site Map</a></div>
+        </div>
+      </div>
+      <div class="col-md-3 col-12 mt-md-0 mt-4 info">
+        <h4 class="text-uppercase text-white">Find Us</h4>
+        <div class="mt-0"><i class="fas fa-location-arrow"></i><span class="ms-1 fw-bolder addr">Browdway, New York</span></div>
+        <div class="mt-1"><i class="fas fa-phone-square"></i><span class="ms-1 fw-bolder text-white tel">+1</span><span class="ms-1 fw-bolder text-white tel">8799216</span></div>
+      </div>
+      <div class="col-md-3 col-12 mt-md-0 mt-4">
+        <h4 class="text-uppercase text-white">Social</h4>
+        <div class="icon-wrapper">
+          <div class="d-flex flex-md-column flex-row"><a class="social social-01" href="#"></a><a class="social social-02" href="#"></a><a class="social social-03" href="#"></a><a class="social social-04" href="#"></a><a class="social social-05" href="#"></a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="bg-dark zone-02">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="text-md-center fw-bold">Copyright©2022 Busiway. All Rights Reserved</div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,8 @@
+# Schema for the configuration files of the business01 theme.
+business01.settings:
+  type: theme_settings
+  label: 'business01 settings'
+  mapping:
+    font_size:
+      type: integer
+      label: Font size

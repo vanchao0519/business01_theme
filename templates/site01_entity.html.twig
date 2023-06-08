@@ -1,0 +1,43 @@
+{% if content %}
+{#  <div{{ attributes }}>#}
+    <div class="main-wrapper">
+      <div class="d-block">
+        {% if content.field_preview|render is not empty %}
+          <img  class="img-fluid news-img-01" src="{{ file_url(content.field_preview['#items'].entity.fileuri) }}" alt="{{ content.field_preview['#items'].alt }}" />
+        {% else %}
+          <img  class="img-fluid news-img-01" src="{{ base_path ~ directory }}/images/800x800.jpeg" alt="Preview default" />
+        {% endif %}
+      </div>
+      <div class="inner-content-wrapper">
+        <div class="d-block mt-3 title">
+          <h4 class="fw-bolder">{{ content.title['#items'].value }}</h4>
+        </div>
+        <div class="d-block desc">
+          <p>{{ content.field_body['#items'].summary }}</p>
+        </div>
+        <div class="d-flex flex-direction justify-content-between">
+          <div class="d-flex flex-row">
+            <div class="d-flex flex-column me-2 justify-content-center align-items-center align-self-center">
+              {% if author_avatar is not empty %}
+                <img class="avatar avatar-lg rounded-circle" src="{{ file_url(author_avatar.entity.fileuri) }}">
+              {% else %}
+                <img class="avatar avatar-lg rounded-circle" src="{{ base_path ~ directory }}/css/images/author-01.jpg">
+              {% endif %}
+            </div>
+            <div class="d-flex flex-column align-self-center">
+              <span class="fs-5 fw-bolder">{{ author_name }}</span>
+              <span class="small fw-normal">{{ created|date("Y-m-d H:i:s") }}</span>
+            </div>
+          </div>
+          <div class="d-flex flex-row">
+            <div class="d-flex flex-column justify-content-center align-items-center align-self-center">
+              <a class="article-link" href="{{ url }}">
+                <span class="fw-bolder text-uppercase">More</span><i class="ms-2 fas fa-long-arrow-alt-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{#  </div>#}
+{% endif %}

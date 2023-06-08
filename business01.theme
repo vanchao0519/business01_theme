@@ -1,0 +1,330 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Template\Attribute;
+use Drupal\site01\Entity\Site01Entity;
+use Drupal\user\Entity\User;
+
+/**
+ * @file
+ * Functions to support theming in the business01 theme.
+ */
+
+/**
+ * Implements hook_preprocess_HOOK() for html.html.twig.
+ */
+function business01_preprocess_html(&$variables) {
+  /**
+   * Add class name to <body> tags
+   */
+  $variables['attributes']['class'][] = 'body-theme body-theme-1';
+
+  $xuacompatible = [
+    '#tag' => 'meta',
+    '#attributes' => [
+      'http-equiv' => 'X-UA-Compatible',
+      'content' => 'IE=edge',
+    ],
+  ];
+
+  $variables['page']['#attached']['html_head'][] = [$xuacompatible, 'X-UA-Compatible'];
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for page.html.twig.
+ */
+function business01_preprocess_page(&$vars) {
+  $is_frontpage = \Drupal::service('path.matcher')->isFrontPage();
+
+  $classAttrs = _get_breadcrumb_wrapper_attributes();
+
+  if (!$is_frontpage) {
+    $vars['business01_breadcrumb_wrapper_attributes'] = new Attribute(['class' => $classAttrs]);
+  }
+}
+
+function _get_breadcrumb_wrapper_attributes (): array {
+  $classAttrs = [
+    'components-019',
+  ];
+
+  $path = \Drupal::service('path.current')->getPath();
+
+  $is_about           = strpos($path, '/about') === 0;
+  $is_pricing         = strpos($path, '/pricing') === 0;
+  $is_team            = strpos($path, '/team') === 0;
+  $is_testimonials    = strpos($path, '/testimonials') === 0;
+  $is_faq             = strpos($path, '/faq') === 0;
+  $is_service         = strpos($path, '/service-detail') === 0;
+  $is_blog            = strpos($path, '/blog-list') === 0;
+
+  if ( $is_about || $is_team ) {
+    $classAttrs[] = 'page-banner-img-02';
+    return $classAttrs;
+  }
+
+  if ( $is_blog ) {
+    $classAttrs[] = 'page-banner-img-03';
+    return $classAttrs;
+  }
+
+  if ( $is_pricing || $is_testimonials || $is_faq || $is_service ) {
+    $classAttrs[] = 'page-banner-img-04';
+    return $classAttrs;
+  }
+
+  $classAttrs = [
+    'components-019',
+    'page-banner-img-01'
+  ];
+  return $classAttrs;
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for node.html.twig.
+ */
+function business01_preprocess_node(&$variables) {
+
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for block.html.twig.
+ */
+function business01_preprocess_block(&$vars) {
+
+  if ( $vars['plugin_id'] === 'system_menu_block:main' ) {
+    if (!array_key_exists('class', $vars['attributes']) || !is_array($vars['attributes']['class'])) {
+      $vars['attributes']['class'] = [];
+    }
+    $vars['attributes']['class'][] = 'navbar sticky-top navbar-expand-md navbar-dark bg-primary';
+  }
+
+}
+
+function business01_preprocess(&$variables, $hook) {
+  $variables['base_path'] = base_path();
+}
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function business01_page_attachments_alter(&$page){
+
+  $setAttachments = function () use (&$page) {
+    // Get the current path
+    $path = \Drupal::service('path.current')->getPath();
+
+    if (strpos($path, '/about') === 0) {
+      $page['#attached']['library'][] = 'business01/about';
+      return;
+    }
+
+    if (strpos($path, '/testimonials') === 0) {
+      $page['#attached']['library'][] = 'business01/testimonials';
+      return;
+    }
+
+    if (strpos($path, '/blog-list/') === 0) {
+      $page['#attached']['library'][] = 'business01/blog-list';
+      return;
+    }
+
+    if (\Drupal::service('path.matcher')->isFrontPage()) {
+      $page['#attached']['library'][] = 'business01/home-01';
+      return;
+    }
+
+  };
+  $setAttachments();
+
+}
+
+/**
+ * Implements hook_theme().
+ */
+function business01_theme($existing, $type, $theme, $path)
+{
+  $theme = [];
+
+  $theme['home'] = [
+    'variables' => [
+      'blogs' => NULL,
+      'time_line' => NULL,
+    ],
+  ];
+  $theme['about'] = [
+    'variables' => [
+      'time_line' => NULL,
+    ],
+  ];
+  $theme['not_found'] = [
+    'template' => 'not_found',
+    'variables' => [],
+  ];
+  $theme['pricing'] = [
+    'variables' => [],
+  ];
+  $theme['team'] = [
+    'variables' => [],
+  ];
+  $theme['testimonials'] = [
+    'variables' => [],
+  ];
+  $theme['faq'] = [
+    'variables' => [],
+  ];
+  $theme['service_detail'] = [
+    'template' => 'service_detail',
+    'variables' => [],
+  ];
+  $theme['blog_detail'] = [
+    'template' => 'blog_detail',
+    'variables' => [
+      'entity' => NULL,
+//      'comment_form' => NULL,
+      'currentTagEntities' => NULL,
+      'blogTagEntities' => NULL,
+      'latestEntities' => NULL,
+      'userEntity' => NULL,
+    ],
+  ];
+
+  $theme['contact_message_contact_us_form'] = [
+    'render element' => 'form',
+    'template' => 'form--contact-form'
+  ];
+
+  return $theme;
+}
+
+function business01_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id === 'contact_message_contact_us_form') {
+    $form['subject']['#theme_wrappers'] = [];
+    $form['subject']['widget'][0]['value']['#title'] = 'Email';
+    $form['subject']['widget'][0]['value']['#attributes']['class'][] = 'form-control';
+    $form['message']['#theme_wrappers'] = [];
+    $form['message']['widget'][0]['value']['#type'] = 'textfield';
+    $form['message']['widget'][0]['value']['#attributes']['class'][] = 'form-control';
+  }
+  $path = \Drupal::service('path.current')->getPath();
+
+  if (strpos($path, '/blog-list/') === 0) {
+    if ( 'comment_site01_form' === $form_id ) {
+
+      // Reset comment url after submit
+      $form['#action'] .= '?destination=' . $path;
+
+      // Do not display [subject] field
+      $form['subject'] = [];
+
+      $form['comment_body']['widget'][0]['#attributes']['class'][] = 'form-control';
+      $form['comment_body']['widget'][0]['#attributes']['placeholder'] = t('Type your message here');
+      $form['comment_body']['widget'][0]['#attributes']['rows'] = 4;
+      $form['comment_body']['widget'][0]['#title'] = '<h4 class="text-uppercase">Leave your comment</h4>';
+      $form['actions']['submit']['#attributes']['class'][] = 'btn btn-primary';
+
+      // Disable preview button
+      $form['actions']['preview'] = [];
+    }
+  }
+
+}
+
+function business01_preprocess_views_view(&$vars) {
+  if ('views_view__blog' === $vars['theme_hook_original']) {
+    $vars['attributes']['class'][] = 'blog-01-section-01 section-margin';
+  }
+}
+
+function business01_preprocess_site01_entity(&$vars) {
+//  dump($vars);
+}
+
+function business01_form_user_login_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  $form['#prefix'] = '<div class="container overflow-hidden mt-3 mb-3"><div class="row">';
+  $form['#suffix'] = '</div></div>';
+  $form['#attributes']['class'][] = 'mt-3';
+  $form['name']['#attributes']['class'][] = 'col-lg-4 col-12';
+  $form['name']['#label_attributes']['class'][] = 'form-label ms-0';
+  $form['name']['#wrapper_attributes']['class'][] = 'form-group';
+  $form['pass']['#attributes']['class'][] = 'col-lg-4 col-12';
+  $form['pass']['#label_attributes']['class'][] = 'form-label ms-0';
+  $form['pass']['#wrapper_attributes']['class'][] = 'form-group';
+  $form['actions']['submit']['#attributes']['class'][] = 'btn btn-primary';
+}
+
+function business01_preprocess_form_element(&$variables) {
+  $className = 'input-group input-group-static my-3';
+  _business01_contact_setClass($variables, $className);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function business01_preprocess_form_element_label(&$variables) {
+  $className = 'text-white fs-6 fw-bolder text-uppercase';
+  _business01_contact_setClass($variables, $className);
+}
+
+
+function _business01_contact_setClass(&$var, $className="") {
+  $path = \Drupal::service('path.current')->getPath();
+  if (strpos($path, '/contact') === 0) {
+    $var['attributes']['class'][] = $className;
+    return;
+  }
+}
+
+function business01_preprocess_taxonomy_term(&$vars) {
+  if  ( 'blog_tag' === $vars['name']['#bundle'] ) {
+    $entities = _getSite01EntityByTermId($vars['term']->tid->value);
+    $blogs = [];
+    foreach ($entities as $key => $entity) {
+      /** @var Site01Entity $entity */
+      $blogs[$key]['content'] = $entity;
+      $user = $entity->getOwner();
+      /** @var User $user */
+      $blogs[$key]['author_name'] = $user->name->value;
+      $blogs[$key]['author_avatar'] = $user->field_avatar;
+      $blogs[$key]['url'] = "/blog-list/{$entity->id()}";
+    }
+    $blogs = array_values($blogs);
+    $vars['content']['blogs'] = $blogs;
+  }
+}
+
+function business01_preprocess_menu(&$vars, $hook) {
+  if ($hook == 'menu__main') {
+    $current_path = \Drupal::request()->getRequestUri();
+    $items = $vars['items'];
+    foreach ($items as $key => $item) {
+      if ($item['url']->toString() == $current_path && '/' === $current_path) {
+        // Add active link.
+        $vars['items'][$key]['attributes']->addClass('active');
+        break;
+      }
+    }
+  }
+}
+
+function _getSite01EntityByTermId( $term_id = -1, $condition = [] ) {
+  $storage = \Drupal::entityTypeManager()->getStorage('site01_entity');
+
+  $query = \Drupal::entityQuery('site01_entity');
+  $query = $query->condition('field_tags.entity.tid', $term_id);
+  $has_sort = isset($condition['sort']) && in_array($condition['sort'],['desc', 'asc']);
+  $query = $query->sort('id', $has_sort ? $condition['sort'] : 'desc');
+  $query = $query->execute();
+
+  return $storage->loadMultiple($query);
+}
+
+
+function business01_preprocess_textarea(&$vars) {
+  $path = \Drupal::service('path.current')->getPath();
+  if (strpos($path, '/blog-list/') === 0) {
+    $vars['wrapper_attributes']['class'] = 'input-group input-group-static mb-4';
+    return;
+  }
+}
+

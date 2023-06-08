@@ -1,0 +1,128 @@
+<div class="blog-detail-section-01 section-margin">
+  <div class="container">
+    <div class="components-title-03">
+      <div class="part-01">
+        <h2 class="text-uppercase">Blog detail</h2>
+      </div>
+      <div class="divider">
+        <div class="divide"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-12 order-1">
+        <div class="components-022">
+          <div class="mt-0">
+            <div class="main-wrapper components-022-block-01">
+              <div class="d-block">
+                {% if entity.field_preview is not empty %}
+                  <img class="img-fluid news-img-01" src="{{ file_url(entity.field_preview.entity.fileuri) }}" alt="{{ entity.field_preview.alt }}"/>
+                {% endif%}
+              </div>
+              <div class="inner-content-wrapper">
+                <div class="d-block title mt-3">
+                  <h4 class="fw-bolder">{{ entity.title.value }}</h4>
+                </div>
+                <div class="d-block desc">
+                  {{ entity.field_body.value }}
+                </div>
+                {% if currentTagEntities is not empty %}
+                <div class="d-block mb-2 category-wrapper">
+                  {% for tag in currentTagEntities %}
+                    <a class="btn btn-sm text-uppercase fw-bolder" href="{{ tag.view_url }}">{{ tag.name.value }}</a>
+                  {% endfor %}
+                </div>
+                {% endif%}
+                <div class="d-block share">
+                  <div class="icon-wrapper">
+                    <span class="fw-bolder text-uppercase text-primary">Share: </span>
+                    <a class="social social-01" href="#"></a>
+                    <a class="social social-02" href="#"></a>
+                    <a class="social social-03" href="#"></a>
+                    <a class="social social-04" href="#"></a>
+                    <a class="social social-05" href="#"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4">
+            <div class="main-wrapper components-022-block-02">
+              <div class="inner-content-wrapper">
+                <div class="d-flex flex-direction justify-content-between">
+                  <div class="d-flex flex-row">
+                    <div class="d-flex flex-column me-2 justify-content-center align-items-center align-self-center">
+                      {% if userEntity.field_avatar is not empty %}
+                        <img class="avatar avatar-lg rounded-circle" src="{{ file_url(userEntity.field_avatar.entity.fileuri) }}"  alt="{{ userEntity.field_avatar.alt }}" />
+                      {% else %}
+                        <img class="avatar avatar-lg rounded-circle" src="{{ base_path ~ directory }}/css/images/author-01.jpg" alt="user avatar"/>
+                      {% endif %}
+                    </div>
+                    <div class="d-flex flex-column align-self-center">
+                      <span class="fs-5 fw-bolder">{{ userEntity.name.value }}</span>
+                      <span class="small fw-normal">{{ userEntity.created.value|date("Y-m-d, h:i:s") }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-block mt-4">
+                  <p class="fw-normal">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Molestias incidunt nam nulla perspiciatis ullam ad magni expedita obcaecati vitae velit dolores perferendis enim quia fuga laudantium, id qui deserunt? Beatae.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-12 order-2 mt-lg-0 mt-4">
+        <div class="components-020">
+          {% if latestEntities is not empty %}
+          <div class="mt-0">
+            <div class="sidebar components-020-block-02">
+              <h4 class="title text-uppercase">Latest Blog</h4>
+              <div class="divider">
+                <div class="divide"></div>
+              </div>
+              <div class="wrapper">
+                {% for entity in latestEntities %}
+                  <a class="d-flex inner-wrapper" href="{{ entity.view_url }}">
+                    <div class="flex-shrink-0 img-wrapper">
+                      {% if entity.field_preview is not empty %}
+                        <img class="img-preview" src="{{ file_url(entity.field_preview.entity.fileuri) }}" alt="{{ entity.field_preview.alt }}"/>
+                      {% else %}
+                        <img class="img-preview" src="{{ base_path ~ directory }}/css/images/sidebar-img-01.jpg" alt="preview thumbnail"/>
+                      {% endif %}
+                    </div>
+                    <div class="flex-grow-1 ms-3 content">
+                      <p class="fw-bolder text-uppercase">{{ entity.title.value }}</p>
+                      <span class="small fw-normal">{{ entity.created.value|date("Y-m-d") }}</span>
+                    </div>
+                  </a>
+                  <div class="block-divider"><div class="block-divide"></div></div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% if blogTagEntities is not empty %}
+            <div class="mt-4">
+              <div class="sidebar components-020-block-03">
+                <h4 class="title text-uppercase">Category</h4>
+                <div class="divider">
+                  <div class="divide"></div>
+                </div>
+                <div class="wrapper">
+                  {% for tag in blogTagEntities %}
+                    <a class="btn btn-sm inner-wrapper" href="{{ tag.view_url }}">{{ tag.name.value }}</a>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+

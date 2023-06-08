@@ -1,0 +1,106 @@
+{#
+/**
+ * @file
+ * Theme override to display the main menu.
+ *
+ * Available variables:
+ * - menu_name: The machine name of the menu.
+ * - items: A nested list of menu items. Each menu item contains:
+ *   - attributes: HTML attributes for the menu item.
+ *   - below: The menu item child items.
+ *   - title: The menu link title.
+ *   - url: The menu link URL, instance of \Drupal\Core\Url
+ *   - localized_options: Menu link localized options.
+ *   - is_expanded: TRUE if the link has visible children within the current
+ *     menu tree.
+ *   - is_collapsed: TRUE if the link has children within the current menu tree
+ *     that are not currently visible.
+ *   - in_active_trail: TRUE if the link is in the active trail.
+ */
+#}
+
+<div class="container">
+  <a class="navbar-link" href="/"><img src="{{ base_path ~ directory }}/css/images/logo_01.png" alt="header_logo"></a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-wrapper" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="line"></span><span class="line"></span><span class="line"></span>
+  </button>
+  <div class="navbar-collapse collapse justify-content-end" id="navbar-wrapper">
+      {% import _self as menus %}
+
+      {{ menus.menu_links(items, attributes, 0, menu_name) }}
+
+      {% macro menu_links(items, attributes, menu_level, menu_name) %}
+        {% import _self as menus %}
+        {%
+          set menu_classes = [
+            'navbar-nav'
+        ]
+        %}
+        {%
+          set submenu_classes = [
+            'subnav'
+        ]
+        %}
+        {% if items %}
+          {% if menu_level == 0 %}
+            <ul{{ attributes.addClass(menu_classes)
+              .setAttribute('data-function','navbar')
+              .setAttribute('data-breakpoint','768')
+              .setAttribute('data-toggle-siblings','true')
+              .setAttribute('aria-label','Main Navigation')
+            }}>
+          {% else %}
+            <ul{{ attributes
+              .removeClass(menu_classes)
+              .addClass(submenu_classes)
+              .removeAttribute('data-function')
+              .removeAttribute('data-breakpoint')
+              .removeAttribute('data-toggle-siblings')
+              .removeAttribute('aria-label')
+            }}>
+          {% endif %}
+          {% for item in items %}
+            {%
+              set item_classes = [
+              ( menu_level == 0 and item.is_expanded == TRUE) ? 'nav-item dropdown': 'nav-item',
+              ( menu_level == 0 and loop.index == 1 ) ? 'mt-md-0 mt-3': '',
+            ]
+            %}
+            {%
+              set link_classes = [
+              'nav-link text-uppercase fw-bold',
+              item.in_active_trail ? 'active',
+            ]
+            %}
+            <li{{ item.attributes.addClass(item_classes) }}>
+              {% if menu_level == 0 and item.is_expanded == TRUE %}
+                <a class="nav-link nav-collapse-animate text-uppercase fw-bold" href="#" aria-haspopup="true" aria-expanded="false">
+                  {{item.title|trim}}
+                  <svg class="parent-icon" aria-hidden="true" viewBox="0 0 1024 1024">
+                    <path d="M316 334l196 196 196-196 60 60-256 256-256-256z"></path>
+                  </svg>
+                </a>
+                <button class="subnav-toggle" aria-label="Toogle Submenu" aria-haspopup="true" aria-expanded="false" type="button">
+                  <svg class="menu-icon" aria-hidden="true" viewBox="0 0 1024 1024">
+                    <path d="M316 334l196 196 196-196 60 60-256 256-256-256z"></path>
+                  </svg>
+                </button>
+              {% else %}
+                {{
+                link(
+                  item.title,
+                  item.url,
+                  item.attributes.removeClass(item_classes).addClass(link_classes)
+                )
+                }}
+              {% endif %}
+              {% if item.below %}
+                {{ menus.menu_links(item.below, attributes, menu_level + 1, menu_name) }}
+              {% endif %}
+            </li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endmacro %}
+  </div>
+</div>

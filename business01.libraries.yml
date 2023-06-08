@@ -1,0 +1,57 @@
+# Main theme library.
+global:
+  js:
+#    js/business01.js: {}
+    js/b2top.js: {}
+    js/popper.js: {}
+    js/bootstrap.js: {}
+    js/navbar.js: {}
+    js/prism.js: {}
+    js/rellax.js: {}
+    js/flatpickr.js: {}
+    js/noframework.waypoints.js: {}
+    js/swiper-bundle.js: {}
+    js/countUp.js: {}
+    js/core.js: {}
+  css:
+    base:
+      css/base/elements.css: {}
+    component:
+      css/components/block.css: {}
+      css/components/breadcrumb.css: {}
+      css/components/field.css: {}
+      css/components/form.css: {}
+      css/components/header.css: {}
+      css/components/menu.css: {}
+      css/components/messages.css: {}
+      css/components/node.css: {}
+      css/components/sidebar.css: {}
+      css/components/table.css: {}
+      css/components/tabs.css: {}
+      css/components/buttons.css: {}
+    layout:
+      css/layouts/layout.css: {}
+    theme:
+      css/theme/print.css: { media: print }
+      https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap: { type: external, minified: true }
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css: { type: external, minified: true }
+      https://unpkg.com/pattern.css: { type: external, minified: true }
+      css/theme/app.css: {}
+
+about:
+  js:
+    js/about.js: {}
+
+home-01:
+  js:
+    js/home-1.js: {}
+
+testimonials:
+  js:
+    js/testimonials.js: {}
+
+blog-list:
+  css:
+    component:
+      css/components/blog-list-add-comment-form.css: {}
+

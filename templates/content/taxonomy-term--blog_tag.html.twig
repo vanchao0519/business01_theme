@@ -1,0 +1,96 @@
+{#
+/**
+ * @file
+ * Theme override to display a taxonomy term.
+ *
+ * Available variables:
+ * - url: URL of the current term.
+ * - name: (optional) Name of the current term.
+ * - content: Items for the content of the term (fields and description).
+ *   Use 'content' to print them all, or print a subset such as
+ *   'content.description'. Use the following code to exclude the
+ *   printing of a given child element:
+ *   @code
+ *   {{ content|without('description') }}
+ *   @endcode
+ * - attributes: HTML attributes for the wrapper.
+ * - page: Flag for the full page state.
+ * - term: The taxonomy term entity, including:
+ *   - id: The ID of the taxonomy term.
+ *   - bundle: Machine name of the current vocabulary.
+ * - view_mode: View mode, e.g. 'full', 'teaser', etc.
+ *
+ * @see template_preprocess_taxonomy_term()
+ */
+#}
+{%
+  set classes = [
+  'taxonomy-term',
+  'vocabulary-' ~ term.bundle|clean_class,
+]
+%}
+<div{{ attributes.setAttribute('id', 'taxonomy-term-' ~ term.id).addClass(classes) }}>
+{#  {{ title_prefix }}#}
+{#  {% if name and not page %}#}
+{#    <h2><a href="{{ url }}">{{ name }}</a></h2>#}
+{#  {% endif %}#}
+{#  {{ title_suffix }}#}
+  <div class="content">
+    {% if content.blogs is not empty %}
+      <div class="blog-01-section-01 section-margin">
+        <div class="container">
+          <div class="components-title-03">
+            <div class="part-01">
+              <h2 class="text-uppercase">{{ term.name.value }}</h2>
+            </div>
+            <div class="divider">
+              <div class="divide"></div>
+            </div>
+          </div>
+        </div>
+        <div class="components-021 view-content">
+          <div class="container">
+            <div class="row">
+              {% for key, blog in content.blogs %}
+                <div class="col-lg-6 col-12 outer-wrapper">
+                  <div class="main-wrapper">
+                    <div class="d-block">
+                      <img class="img-fluid" src="{{ file_url(blog.content.field_preview.entity.fileuri) }}" alt="{{ blog.content.field_preview.entity.alt }}"/>
+                    </div>
+                    <div class="inner-content-wrapper">
+                      <div class="d-block title mt-3">
+                        <h4 class="fw-bolder">{{ blog.content.title.value }}</h4>
+                      </div>
+                      <div class="d-block desc">
+                        {{ blog.content.field_body.summary }}
+                      </div>
+                      <div class="d-flex flex-direction justify-content-between">
+                        <div class="d-flex flex-row">
+                          <div class="d-flex flex-column me-2 justify-content-center align-items-center align-self-center">
+                            <img class="avatar avatar-lg rounded-circle" src="{{ file_url(blog.author_avatar.entity.fileuri) }}" alt="{{ blog.author_name }}"/>
+                          </div>
+                          <div class="d-flex flex-column align-self-center">
+                            <span class="fs-5 fw-bolder">{{ blog.author_name }}</span>
+                            <span class="small fw-normal">{{ blog.content.created.value|date("Y-m-d H:i:s") }}</span>
+                          </div>
+                        </div>
+                        <div class="d-flex flex-row">
+                          <div class="d-flex flex-column justify-content-center align-items-center align-self-center">
+                            <a class="article-link" href="{{ blog.url }}">
+                              <span class="fw-bolder text-uppercase">More</span>
+                              <i class="ms-2 fas fa-long-arrow-alt-right"></i>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>

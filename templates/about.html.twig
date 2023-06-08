@@ -1,0 +1,99 @@
+<div class="about-section-01 overflow-hidden section-margin">
+  <div class="container">
+    <div class="components-title-03">
+      <div class="part-01">
+        <h2 class="text-uppercase">about us</h2>
+      </div>
+      <div class="divider">
+        <div class="divide"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="components-012">
+    <div class="container hero-01">
+      <div class="d-flex flex-lg-row flex-md-row flex-column">
+        <div class="row">
+          <div class="col-lg-6 col-12 justify-content-center align-self-center order-2">
+            <div class="info">
+              <p class="fw-normal desc">We're on a mission to help elevate the creative goals of distinctive businesses, organizations and institutions who are making an impact in our communities.</p>
+              <div class="components-012-block-01 mt-0">
+                <p class="fw-bolder">Flexibility 85%</p>
+                <div class="progress">
+                  <div class="progress-bar bg-primary" id="components-012-block-01-01" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div>
+              <div class="components-012-block-01">
+                <p class="fw-bolder">Independence 90%</p>
+                <div class="progress">
+                  <div class="progress-bar bg-secondary" id="components-012-block-01-02" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div>
+              <div class="d-block mt-4"><a class="btn btn-custom-reverse btn-primary btn-lg" href="#">More</a></div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-12 justify-content-center align-self-center order-1">
+            <div class="video">
+              <div class="img-bg-002"></div><img class="img-fluid" src="{{ base_path ~ directory }}/css/images/home-video-01.jpg" alt="video_thumb"/>
+              <div class="overlay-video"></div>
+              <button class="play-button" id="videoTrigger002" type="button" data-tagVideo="https://www.youtube.com/embed/XnWD60rk_mk" data-bs-toggle="modal" data-bs-target="#videoModal002"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="videoModal002" tabindex="-1" aria-labelledby="videoModal002Label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body">
+            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="close-line-01"></span></button>
+            <div class="ratio ratio-16x9">
+              <iframe id="videoContainer002" src="" allow="autoplay;" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-margin"></div>
+  <div class="components-024">
+    <div class="components-024-bg-01 components-024-rellax-01" data-rellax-percentage="0.5"></div>
+    <div class="container">
+      <div class="components-title-01">
+        <div class="part-01">
+          <div class="fs-1 fw-bolder text-uppercase  text-white">Our history</div>
+        </div>
+        <div class="divider pattern-dots-sm  text-white">
+          <div class="divide"></div>
+        </div>
+        <div class="part-02">
+          <h2 class="text-uppercase  text-white">Timeline</h2>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <ol>
+          <div class="d-flex flex-column">
+            {% if time_line is not empty %}
+              {% for key, value in time_line %}
+                <li class="wrapper components-024-animation-toggle">
+                  <div class="inner-wrapper">
+                    <div class="part-01">
+                      <div class="title">
+                        <div class="fs-3 fw-bolder text-uppercase title-wrapper">{{ value.title.value }}</div>
+                      </div>
+                    </div>
+                    <div class="part-02">
+                      <div class="content"><span class="fw-bolder">{{ value.content.value }}</span></div>
+                    </div>
+                  </div>
+                </li>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
